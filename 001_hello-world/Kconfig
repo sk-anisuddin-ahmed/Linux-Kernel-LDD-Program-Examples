@@ -1,0 +1,19 @@
+config HELLO_CHAR_DEVICE
+    tristate "Hello Character Device Driver"
+    default m
+    help
+      This is a simple character device driver that demonstrates
+      basic kernel module programming concepts including:
+      - Character device registration
+      - File operations (open, read, write, release)
+      - Device class and device creation
+      - User-kernel space data transfer
+
+      Say Y here to compile this driver into the kernel.
+      Say M here to compile this driver as a loadable module.
+      Say N here if you don't want this driver.
+
+      To compile this driver as a module, choose M here: the
+      module will be called char_device.
+
+      If unsure, say M.
