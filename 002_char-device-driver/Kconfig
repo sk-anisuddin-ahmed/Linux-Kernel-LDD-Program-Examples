@@ -1,5 +1,0 @@
-menuconfig CHAR_DEVICE_DRIVER
-    bool "Character Device Driver"
-    default n
-    help
-      Say Y here to include the character device driver in the kernel.
