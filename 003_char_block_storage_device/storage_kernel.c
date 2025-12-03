@@ -145,7 +145,7 @@ static long storage_ioctl(struct file *file, unsigned int cmd, unsigned long arg
 		case IOCTL_UNLOCK_SECTOR:
 		{
 			struct {
-				int sector;
+				int sector : 3;
 				char key;
 			} unlock_req;
 

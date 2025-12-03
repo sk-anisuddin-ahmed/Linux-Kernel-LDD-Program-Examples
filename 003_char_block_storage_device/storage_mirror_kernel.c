@@ -55,17 +55,22 @@ int vblock_backup_to_file(const char *path)
         return -ERESTARTSYS;
     }
 
-    while (pos < MIRROR_TOTAL_SIZE) 
+	while (pos < MIRROR_TOTAL_SIZE) 
 	{
-        ssize_t rc = kernel_write(filp, mirror_buffer + pos,
-                                  MIRROR_TOTAL_SIZE - pos, &pos);
-        if (rc < 0) 
-		{
-            ret = rc;
-            break;
-        }
-        written += rc;
-    }
+		size_t to_write = min_t(size_t, MIRROR_TOTAL_SIZE, MIRROR_TOTAL_SIZE - pos);
+		ssize_t rc = kernel_write(filp, mirror_buffer + pos, to_write, &pos);
+		if (rc < 0) 
+		{ 
+			ret = rc; 
+			break; 
+		}
+		if (rc == 0) 
+		{ 
+			ret = -EIO; 
+			break; 
+		}
+		written += rc;
+	}
 
     mutex_unlock(&mirror_mutex);
     filp_close(filp, NULL);

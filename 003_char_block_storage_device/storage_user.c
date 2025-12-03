@@ -46,7 +46,17 @@ int read_sector(int fd, int sector, void *buf)
         return -1;
     }
     printf("Sector %d read success\n", sector);
-    return 0;
+	
+	unsigned char *bytes = buf;
+    for (int i = 0; i < SECTOR_SIZE; i++)
+	{
+        if (i % 16 == 0) 
+			printf("\n%04x: ", i);
+        printf("%02x ", bytes[i]);
+    }
+    printf("\n");
+	
+	return 0;
 }
 
 int main(void)
@@ -118,7 +128,7 @@ int main(void)
     }
 	
 	/* Mirror Sector 2 */
-    int sectorMirror = 2;
+    int sectorMirror = 0;
     if (ioctl(fd, IOCTL_MIRROR_SECTOR, &sectorMirror) < 0) 
 	{
         perror("mirror");
@@ -129,7 +139,7 @@ int main(void)
 
     /* Backup full storage to file */
     char backupPath[64];
-    strcpy(backupPath, "/tmp/storage_backup.bin");
+    strcpy(backupPath, "./storage_backup.bin");
     if (ioctl(fd, IOCTL_BACKUP_TO_FILE, backupPath) < 0) 
 	{
         perror("backup_to_file");
