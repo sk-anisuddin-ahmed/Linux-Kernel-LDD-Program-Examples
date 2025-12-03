@@ -2,7 +2,7 @@ obj-m += storage_kernel.o storage_mirror_kernel.o
 
 .PHONY: all kernel user clean
 
-all: kernel user
+all: clean kernel user
 
 kernel:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
@@ -12,4 +12,4 @@ user:
 
 clean:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
-	rm -f storage_user *.o
+	rm -f storage_user *.o *.out
