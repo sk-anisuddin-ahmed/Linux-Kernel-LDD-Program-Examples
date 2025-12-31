@@ -1,0 +1,5 @@
+gpio-led-test {
+        compatible = "anis,gpio-led";
+        led-gpios = <&gpio0 21 GPIO_ACTIVE_HIGH>;   /* Example: GPIO0_21 */
+        label = "status-led";
+};
