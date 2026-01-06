@@ -58,7 +58,7 @@ static ssize_t power_store(struct kobject *kobj, struct kobj_attribute *attr,
 
 static struct kobj_attribute color_attr = __ATTR(color, 0664, color_show, color_store);
 static struct kobj_attribute brightness_attr = __ATTR(brightness, 0664, brightness_show, brightness_store);
-static struct kobj_attribute power_attr = __ATTR(power, 0664, power_show, power_store);
+static struct kobj_attribute power_attr = __ATTR(``````````````````````, 0664, power_show, power_store);
 
 static struct attribute *attrs[] = {
     &color_attr.attr,
@@ -78,6 +78,7 @@ static int __init led_rgb_init(void)
     if (!led_rgb_light)
         return -ENOMEM;
     ret = sysfs_create_group(led_rgb_light, &attr_group);
+	//sysfs_create_file (led_rgb_light, &color_attr.attr);
     pr_info("RGB LED Sysfs Driver Loaded\n");
     return ret;
 }
