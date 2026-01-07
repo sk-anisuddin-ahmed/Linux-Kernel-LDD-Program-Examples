@@ -77,7 +77,7 @@ make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- menuconfig
 
 Navigate in menuconfig:
 
-```
+```text
 Device Drivers → Network device support → Wireless LAN → Realtek rtl8xxxu wireless driver
 ```
 
@@ -126,7 +126,7 @@ sudo make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- \
 
 **Output:**
 
-```
+```text
 /home/anis/linux/output/lib/modules/6.6.58-ti-rt-arm32-r12/
 ```
 
@@ -140,12 +140,32 @@ Using root login and IP `192.168.7.2`:
 
 ```bash
 # Kernel + DTB
-scp arch/arm/boot/zImage root@192.168.7.2:/boot/vmlinuz-6.6.58-ti
+scp arch/arm/boot/zImage root@192.168.7.2:/boot/vmlinuz-6.6.58-ti-rt-arm32-r12
 scp arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb root@192.168.7.2:/boot/dtbs/6.6.58-ti-rt-arm32-r12/am335x-boneblack-6.6.58.dtb
 
 # Modules
-scp -r /home/anis/linux/output/lib/modules/6.6.58-ti-rt-arm32-r12 \
+Zip modules for faster transfer:
+
+```bash
+cd /home/anis/linux/output/lib/modules
+tar -czf 6.6.58-ti-rt-arm32-r12.tar.gz 6.6.58-ti-rt-arm32-r12
+```
+
+Transfer zipped modules:
+
+```bash
+scp /home/anis/linux/output/lib/modules/6.6.58-ti-rt-arm32-r12.tar.gz \
     root@192.168.7.2:/lib/modules/
+```
+
+Extract on BeagleBone:
+
+```bash
+ssh root@192.168.7.2
+cd /lib/modules
+tar -xzf 6.6.58-ti-rt-arm32-r12.tar.gz
+rm 6.6.58-ti-rt-arm32-r12.tar.gz
+```
 ```
 
 ---
@@ -185,7 +205,7 @@ uname -r
 
 Expected:
 
-```
+```text
 6.6.58-ti-rt-arm32-r12
 ```
 
