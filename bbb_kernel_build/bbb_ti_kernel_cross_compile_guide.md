@@ -140,8 +140,8 @@ Using root login and IP `192.168.7.2`:
 
 ```bash
 # Kernel + DTB
-scp arch/arm/boot/zImage root@192.168.7.2:/boot/uboot/zImage-6.6.58-ti
-scp arch/arm/boot/dts/am335x-boneblack.dtb root@192.168.7.2:/boot/uboot/am335x-boneblack-6.6.58.dtb
+scp arch/arm/boot/zImage root@192.168.7.2:/boot/vmlinuz-6.6.58-ti
+scp arch/arm/boot/dts/ti/omap/am335x-boneblack.dtb root@192.168.7.2:/boot/dtbs/6.6.58-ti-rt-arm32-r12/am335x-boneblack-6.6.58.dtb
 
 # Modules
 scp -r /home/anis/linux/output/lib/modules/6.6.58-ti-rt-arm32-r12 \
