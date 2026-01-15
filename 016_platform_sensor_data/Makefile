@@ -1,15 +1,26 @@
-obj-m += platform_sensor_data.o
+obj-m += sensor_pltdvc.o sensor_pltdrv.o
 
-all:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
+KDIR ?= /lib/modules/$(shell uname -r)/build
+PWD := $(shell pwd)
+
+all: modules app
+
+modules:
+	$(MAKE) -C $(KDIR) M=$(PWD) modules
+
+app: sensor_app.c
+	gcc -o sensor_app sensor_app.c
 
 clean:
-	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) clean
+	$(MAKE) -C $(KDIR) M=$(PWD) clean
+	rm -f sensor_app
 
-install:
-	insmod platform_sensor_data.ko
+load:
+	sudo insmod sensor_pltdrv.ko
+	sudo insmod sensor_pltdvc.ko
 
-remove:
-	rmmod platform_sensor_data
+unload:
+	sudo rmmod sensor_pltdvc
+	sudo rmmod sensor_pltdrv
 
-.PHONY: all clean install remove
+.PHONY: all modules app clean load unload run

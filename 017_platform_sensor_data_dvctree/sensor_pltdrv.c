@@ -15,8 +15,8 @@ struct sensor_dev
 
 /* Sysfs show: read temperature register */
 static ssize_t temp_show(struct device *dev,
-						struct device_attribute *attr,
-						char *buf)
+						 struct device_attribute *attr,
+						 char *buf)
 {
 	struct sensor_dev *pdata = dev_get_drvdata(dev);
 	unsigned int temp_value = ioread32(pdata->base_addr + 0x00);
@@ -25,9 +25,9 @@ static ssize_t temp_show(struct device *dev,
 
 /* Sysfs store: write control register */
 static ssize_t control_store(struct device *dev,
-							struct device_attribute *attr,
-							const char *buf,
-							size_t count)
+							 struct device_attribute *attr,
+							 const char *buf,
+							 size_t count)
 {
 	struct sensor_dev *pdata = dev_get_drvdata(dev);
 	unsigned int val;
@@ -99,11 +99,16 @@ static int sensor_remove(struct platform_device *pltdvc)
 	return 0;
 }
 
+static const struct of_device_id sensor_of_match[] = {
+	{.compatible = "temp-sensor,anis"},
+	{}};
+MODULE_DEVICE_TABLE(of, sensor_of_match);
+
 static struct platform_driver sensor_pltdrv = {
 	.driver = {
 		.name = PLATFORM_DRIVER_NAME,
 		.owner = THIS_MODULE,
-	},
+		.of_match_table = sensor_of_match},
 	.probe = sensor_probe,
 	.remove = sensor_remove,
 };

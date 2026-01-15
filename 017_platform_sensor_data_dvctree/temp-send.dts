@@ -1,0 +1,19 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+    part-number = "BB-SENSOR";
+    version = "00A0";
+
+    fragment@0 {
+        target = <&ocp>;   /* attach under SoC bus */
+        __overlay__ {
+            sensor@50000000 {
+                compatible = "temp-sensor,anis";
+                reg = <0x50000000 0x1000>;
+            };
+        };
+    };
+};
