@@ -4,15 +4,14 @@
 / {
     compatible = "ti,beaglebone", "ti,beaglebone-black";
 
-    part-number = "BB-SENSOR";
-    version = "00A0";
-
     fragment@0 {
-        target = <&ocp>;   /* attach under SoC bus */
+        target = <&{/}>;   /* attach at root node */
         __overlay__ {
-            sensor@50000000 {
+            sensor@0 {
                 compatible = "temp-sensor,anis";
-                reg = <0x50000000 0x1000>;
+                sensor-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+                label = "gpio-sensor-00A1";
+                status = "okay";
             };
         };
     };

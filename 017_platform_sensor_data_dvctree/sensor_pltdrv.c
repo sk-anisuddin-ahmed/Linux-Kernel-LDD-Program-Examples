@@ -116,5 +116,3 @@ static struct platform_driver sensor_pltdrv = {
 module_platform_driver(sensor_pltdrv);
 
 MODULE_LICENSE("GPL");
-MODULE_AUTHOR("Sk");
-MODULE_DESCRIPTION("Sensor platform driver with sysfs interface");
