@@ -28,41 +28,41 @@
 # Header Usage Information - Kernel Space
 
 ### `#include <linux/kernel.h>`
-- Provides core kernel facilities: logging (`printk`, `pr_info`, `pr_err`), basic macros, and common definitions.  
+- Provides core kernel facilities: logging (`printk`, `pr_info`, `pr_err`), basic macros, and common definitions.
 - Used for `pr_info()` and `pr_err()` messages in your driver.
 
 ### `#include <linux/module.h>`
-- Required for building loadable kernel modules.  
-- Defines macros like `MODULE_LICENSE`, `MODULE_AUTHOR`, `MODULE_DESCRIPTION`, and functions `module_init()` / `module_exit()`.  
+- Required for building loadable kernel modules.
+- Defines macros like `MODULE_LICENSE`, `MODULE_AUTHOR`, `MODULE_DESCRIPTION`, and functions `module_init()` / `module_exit()`.
 - Used to declare your driver as a module and provide metadata.
 
 ### `#include <linux/kdev_t.h>`
-- Provides macros for working with device numbers (`dev_t`).  
-- Includes helpers like `MAJOR(dev_t)` and `MINOR(dev_t)` to extract major/minor numbers.  
+- Provides macros for working with device numbers (`dev_t`).
+- Includes helpers like `MAJOR(dev_t)` and `MINOR(dev_t)` to extract major/minor numbers.
 - Used when printing major and minor in your init function.
 
 ### `#include <linux/fs.h>`
-- Defines structures and functions for file operations in the kernel.  
-- Provides `struct file_operations`, `struct inode`, and constants like `O_RDONLY`, `O_WRONLY`.  
+- Defines structures and functions for file operations in the kernel.
+- Provides `struct file_operations`, `struct inode`, and constants like `O_RDONLY`, `O_WRONLY`.
 - Used to implement `.read`, `.write`, `.open`, `.release`, `.unlocked_ioctl`.
 
 ### `#include <linux/device.h>`
-- Provides APIs for creating device nodes in `/dev` via `class_create()` and `device_create()`.  
+- Provides APIs for creating device nodes in `/dev` via `class_create()` and `device_create()`.
 - Used to expose your character device to user space as `/dev/storageDevice`.
 
 ### `#include <linux/cdev.h>`
-- Provides support for character devices (`struct cdev`).  
-- Functions like `cdev_init()` and `cdev_add()` register your driver with the kernel.  
+- Provides support for character devices (`struct cdev`).
+- Functions like `cdev_init()` and `cdev_add()` register your driver with the kernel.
 - Used to bind your `file_operations` to a device number.
 
 ### `#include <linux/uaccess.h>`
-- Provides safe functions for copying data between user space and kernel space.  
-- Functions: `copy_to_user()`, `copy_from_user()`.  
+- Provides safe functions for copying data between user space and kernel space.
+- Functions: `copy_to_user()`, `copy_from_user()`.
 - Used in `.read`, `.write`, and IOCTL handlers to transfer data.
 
 ### `#include <linux/mutex.h>`
-- Provides mutual exclusion locks (`struct mutex`).  
-- Functions: `mutex_init()`, `mutex_lock()`, `mutex_unlock()`, `mutex_lock_interruptible()`.  
+- Provides mutual exclusion locks (`struct mutex`).
+- Functions: `mutex_init()`, `mutex_lock()`, `mutex_unlock()`, `mutex_lock_interruptible()`.
 - Used to protect `storage_buffer` and `sector_lock_state` against concurrent access.
 
 # Header Usage Information - User Space
@@ -195,12 +195,12 @@ chmod 0644 filename
 
 # IOCTL Commands Overview
 
-IOCTL (Input/Output Control) provides a way to send control commands to device drivers.  
+IOCTL (Input/Output Control) provides a way to send control commands to device drivers.
 Each command is defined with macros like `_IOW`, `_IOR`, `_IOWR`.
 
 ## Types of IOCTL Macros
-- **_IOW** → Write: Pass data *from user space to kernel*  
-- **_IOR** → Read: Get data *from kernel to user space*  
+- **_IOW** → Write: Pass data *from user space to kernel*
+- **_IOR** → Read: Get data *from kernel to user space*
 - **_IOWR** → Read/Write: Both directions
 
 ## IOCTL Usage
@@ -246,9 +246,9 @@ In Linux device driver development, these static structures are commonly used to
 5. Device file appears in `/dev/` for user-space access.
 
 ## Summary
-- **`storage_class`** → groups devices in sysfs  
-- **`storage_device`** → represents the device in `/dev/`  
-- **`storage_dev_number`** → unique identifier (major/minor)  
+- **`storage_class`** → groups devices in sysfs
+- **`storage_device`** → represents the device in `/dev/`
+- **`storage_dev_number`** → unique identifier (major/minor)
 - **`storage_cdev`** → character device structure linking operations
 
 # Synchronization in Linux Kernel
@@ -275,7 +275,7 @@ up(&sem_t);
 unsigned long copy_from_user(void *to, const void __user *from, unsigned long n);
 unsigned long copy_to_user(void __user *to, const void *from, unsigned long n);
 char kbuf[100];
-if (copy_from_user(kbuf, user_buf, sizeof(kbuf))) 
+if (copy_from_user(kbuf, user_buf, sizeof(kbuf)))
 {
     return -EFAULT; // error if not all bytes copied
 }
@@ -322,7 +322,7 @@ if (copy_from_user(kbuf, user_buf, sizeof(kbuf)))
 # Basic File Operations in Kernel Space
 
 ## Overview
-In Linux kernel modules, you can perform file I/O using kernel APIs like `filp_open`, `kernel_write`, and `filp_close`.  
+In Linux kernel modules, you can perform file I/O using kernel APIs like `filp_open`, `kernel_write`, and `filp_close`.
 These are used when the driver needs to read/write files directly from kernel space.
 
 ## Common Functions
@@ -361,7 +361,7 @@ filp_close(filp, NULL);
 # File Operations in Linux Kernel Driver
 
 ## Overview
-The `struct file_operations` defines how user-space interacts with a character device.  
+The `struct file_operations` defines how user-space interacts with a character device.
 Each field points to a function in the driver that handles a specific operation.
 
 ## Fields in `storage_fops`
@@ -432,29 +432,29 @@ unregister_chrdev_region(storage_dev_number, 1);
 printk(KERN_INFO "Message: %d\n", value);
 ```
 
-- `KERN_EMERG`  
-  - Emergency: system is unusable  
+- `KERN_EMERG`
+  - Emergency: system is unusable
   - Highest priority
 
-- `KERN_ALERT`  
+- `KERN_ALERT`
   - Action must be taken immediately
 
-- `KERN_CRIT`  
+- `KERN_CRIT`
   - Critical conditions (serious hardware/software errors)
 
-- `KERN_ERR`  
+- `KERN_ERR`
   - Error conditions
 
-- `KERN_WARNING`  
+- `KERN_WARNING`
   - Warning conditions
 
-- `KERN_NOTICE`  
+- `KERN_NOTICE`
   - Normal but significant condition
 
-- `KERN_INFO`  
+- `KERN_INFO`
   - Informational messages
 
-- `KERN_DEBUG`  
+- `KERN_DEBUG`
   - Debug-level messages (lowest priority)
 
 ## `pr_info`
@@ -1036,14 +1036,14 @@ pr_info("ID: %d\n", parent->id);
 ```c
 #include <linux/sysfs.h>
 
-static ssize_t my_attr_show(struct device *dev, 
-                            struct device_attribute *attr, 
+static ssize_t my_attr_show(struct device *dev,
+                            struct device_attribute *attr,
                             char *buf)
 {
     return snprintf(buf, PAGE_SIZE, "value: %d\n", my_value);
 }
 
-static ssize_t my_attr_store(struct device *dev, 
+static ssize_t my_attr_store(struct device *dev,
                              struct device_attribute *attr,
                              const char *buf, size_t count)
 {
@@ -1108,7 +1108,7 @@ module_platform_driver(my_driver);
         reg = <0x1000 0x100>;          // Address and size
         interrupts = <10>;              // IRQ number
         status = "okay";                // or "disabled"
-        
+
         property = "value";
         number = <42>;
         array = <1 2 3 4>;
@@ -1287,7 +1287,7 @@ static ssize_t attr_show(struct kobject *kobj, struct kobj_attribute *attr, char
     return sprintf(buf, "%d\n", my_value);
 }
 
-static ssize_t attr_store(struct kobject *kobj, struct kobj_attribute *attr, 
+static ssize_t attr_store(struct kobject *kobj, struct kobj_attribute *attr,
                           const char *buf, size_t count)
 {
     sscanf(buf, "%d", &my_value);
@@ -1346,18 +1346,18 @@ kobject_put(kobj);
 static irqreturn_t my_isr_top_half(int irq, void *dev_id)
 {
     struct my_device *dev = (struct my_device *)dev_id;
-    
+
     // Check if interrupt is from our device
     if (!is_our_irq(dev))
         return IRQ_NONE;
-    
+
     // Do minimal work - read status, mask interrupt
     dev->status = read_register(dev->base + STATUS_REG);
     disable_irq_nosync(irq);  // Or mask the interrupt
-    
+
     // Schedule bottom half
     tasklet_schedule(&dev->tasklet);
-    
+
     return IRQ_HANDLED;
 }
 
@@ -1371,10 +1371,10 @@ ret = request_irq(irq_num, my_isr_top_half, IRQF_SHARED, "my_dev", dev);
 static void my_isr_bottom_half(struct tasklet_struct *t)
 {
     struct my_device *dev = from_tasklet(dev, t, tasklet);
-    
+
     // Do heavy work here
     process_data(dev);
-    
+
     // Re-enable interrupt
     enable_irq(dev->irq);
 }
@@ -1398,14 +1398,14 @@ IRQ_WAKE_THREAD // Wake kernel thread (threaded IRQ)
 static irqreturn_t my_shared_isr(int irq, void *dev_id)
 {
     struct my_device *dev = (struct my_device *)dev_id;
-    
+
     // Must check if interrupt is from our device
     if (!(readl(dev->base + INT_STATUS) & INT_BIT))
         return IRQ_NONE;  // Not our interrupt
-    
+
     // Handle interrupt
     handle_interrupt(dev);
-    
+
     return IRQ_HANDLED;
 }
 
@@ -1429,7 +1429,7 @@ static irqreturn_t my_irq_thread_fn(int irq, void *dev_id)
 }
 
 // Register:
-request_threaded_irq(irq, my_irq_handler, my_irq_thread_fn, 
+request_threaded_irq(irq, my_irq_handler, my_irq_thread_fn,
                      IRQF_ONESHOT, "my_dev", dev);
 ```
 
@@ -1466,22 +1466,22 @@ static spinlock_t update_lock;
 void update_data(void)
 {
     spin_lock(&update_lock);
-    
+
     // Copy old data to new
     struct my_data *new_data = kmalloc(sizeof(*new_data), GFP_KERNEL);
     memcpy(new_data, shared_data, sizeof(*new_data));
-    
+
     // Modify new copy
     new_data->value = new_value;
-    
+
     // Replace pointer
     rcu_assign_pointer(shared_data, new_data);
-    
+
     spin_unlock(&update_lock);
-    
+
     // Wait for readers to finish
     synchronize_rcu();
-    
+
     // Free old data
     kfree(old_data);
 }
@@ -1490,10 +1490,10 @@ void update_data(void)
 void read_data(void)
 {
     rcu_read_lock();
-    
+
     struct my_data *data = rcu_dereference(shared_data);
     int value = data->value;
-    
+
     rcu_read_unlock();
 }
 ```
@@ -1895,12 +1895,12 @@ void __iomem *base = devm_ioremap(&pdev->dev, start, size);
 struct dentry *debug_dir = debugfs_create_dir("mydriver", NULL);
 
 // Create files
-struct dentry *debug_file = debugfs_create_file("status", 0644, 
-                                                debug_dir, NULL, 
+struct dentry *debug_file = debugfs_create_file("status", 0644,
+                                                debug_dir, NULL,
                                                 &debug_fops);
 
 // Simple read/write
-static ssize_t debug_read(struct file *file, char __user *buf, 
+static ssize_t debug_read(struct file *file, char __user *buf,
                           size_t count, loff_t *ppos)
 {
     return simple_read_from_buffer(buf, count, ppos, "Debug info\n", 11);
@@ -2115,7 +2115,7 @@ misc_deregister(&my_misc);
 ```c
 #include <linux/i2c.h>
 
-static int my_i2c_probe(struct i2c_client *client, 
+static int my_i2c_probe(struct i2c_client *client,
                         const struct i2c_device_id *id)
 {
     pr_info("I2C device probed\n");
@@ -2163,15 +2163,15 @@ static int write_to_i2c(struct i2c_client *client, u8 reg, u8 *data, int len)
 {
     struct i2c_msg msg;
     u8 buf[256];
-    
+
     buf[0] = reg;
     memcpy(&buf[1], data, len);
-    
+
     msg.addr = client->addr;
     msg.flags = 0;              // Write
     msg.len = len + 1;
     msg.buf = buf;
-    
+
     return i2c_transfer(client->adapter, &msg, 1);
 }
 
@@ -2179,17 +2179,17 @@ static int write_to_i2c(struct i2c_client *client, u8 reg, u8 *data, int len)
 static int read_from_i2c(struct i2c_client *client, u8 reg, u8 *data, int len)
 {
     struct i2c_msg msgs[2];
-    
+
     msgs[0].addr = client->addr;
     msgs[0].flags = 0;             // Write
     msgs[0].len = 1;
     msgs[0].buf = &reg;
-    
+
     msgs[1].addr = client->addr;
     msgs[1].flags = I2C_M_RD;      // Read
     msgs[1].len = len;
     msgs[1].buf = data;
-    
+
     return i2c_transfer(client->adapter, msgs, 2);
 }
 ```
@@ -2259,10 +2259,10 @@ static int spi_bulk_transfer(struct spi_device *spi, u8 *tx, u8 *rx, int len)
         .len = len,
     };
     struct spi_message msg;
-    
+
     spi_message_init(&msg);
     spi_message_add_tail(&xfer, &msg);
-    
+
     return spi_sync(spi, &msg);
 }
 ```
@@ -2328,11 +2328,11 @@ echo 0 > /sys/kernel/debug/tracing/tracing_on
 static void my_netlink_recv_msg(struct sk_buff *skb)
 {
     struct nlmsghdr *nlh = (struct nlmsghdr *)skb->data;
-    
+
     if (nlh->nlmsg_len < sizeof(*nlh)) {
         return;
     }
-    
+
     pr_info("Received netlink message: %s\n", (char *)NLMSG_DATA(nlh));
 }
 
@@ -2360,21 +2360,21 @@ static void send_netlink_msg(struct sock *nl_sock, const char *msg)
     struct nlmsghdr *nlh;
     int msg_size = strlen(msg);
     int res;
-    
+
     skb = nlmsg_new(NLMSG_ALIGN(msg_size + 1), GFP_KERNEL);
     if (!skb) {
         pr_err("Failed to allocate netlink message\n");
         return;
     }
-    
+
     nlh = nlmsg_put(skb, 0, 0, NLMSG_DONE, msg_size + 1, 0);
     if (!nlh) {
         kfree_skb(skb);
         return;
     }
-    
+
     memcpy(NLMSG_DATA(nlh), msg, msg_size + 1);
-    
+
     res = netlink_broadcast(nl_sock, skb, 0, 0, GFP_KERNEL);
     if (res < 0) {
         pr_err("Failed to broadcast netlink message: %d\n", res);
@@ -2466,3 +2466,102 @@ err_register:
 err_irq:
     return ret;
 ```
+
+---
+
+# Kernel Threads - kthread API
+
+## Kernel Thread Structure
+
+```c
+#include <linux/kthread.h>
+
+struct task_struct *th;
+
+static int thread_func(void *data)
+{
+    const char *name = (const char *)data;
+
+    while (!kthread_should_stop()) {
+        // Do work
+        msleep(1000);
+    }
+
+    return 0;
+}
+
+// Create and start
+th = kthread_create(thread_func, "thread_name", "format_%s");
+wake_up_process(th);
+
+// Or create and wake in one call
+th = kthread_run(thread_func, "thread_name", "format_%s");
+
+// Stop thread
+kthread_stop(th);
+```
+
+## Key Functions
+
+| Function | Purpose |
+|----------|---------|
+| `kthread_create()` | Create thread (not started) |
+| `kthread_run()` | Create and start thread |
+| `wake_up_process()` | Wake sleeping thread |
+| `kthread_should_stop()` | Check if stop requested |
+| `kthread_stop()` | Stop and wait for thread |
+| `msleep()`, `usleep_range()` | Sleep in thread |
+| `smp_processor_id()` | Get current CPU ID |
+
+---
+
+# DEVICE_ATTR Macros
+
+```c
+// Read-only attribute
+static DEVICE_ATTR_RO(name);
+
+// Write-only attribute
+static DEVICE_ATTR_WO(name);
+
+// Read-Write attribute
+static DEVICE_ATTR_RW(name);
+
+// Attribute with custom permissions
+static DEVICE_ATTR(name, 0644, show_func, store_func);
+```
+
+---
+
+# Attribute Group Helpers
+
+```c
+static struct attribute *my_attrs[] = {
+    &dev_attr_name.attr,
+    NULL,
+};
+
+static struct attribute_group my_group = {
+    .attrs = my_attrs,
+};
+
+// Register in probe
+sysfs_create_group(&pdev->dev.kobj, &my_group);
+
+// Unregister in remove
+sysfs_remove_group(&pdev->dev.kobj, &my_group);
+```
+
+---
+
+# DECLARE and INIT Macros
+
+| Macro | Purpose |
+|-------|---------|
+| `DECLARE_TASKLET(name, func, data)` | Declare tasklet |
+| `DECLARE_WORK(name, func)` | Declare work queue item |
+| `DECLARE_WAIT_QUEUE_HEAD(name)` | Declare wait queue |
+| `LIST_HEAD(name)` | Declare linked list head |
+| `DEFINE_MUTEX(name)` | Declare and initialize mutex |
+| `DEFINE_SPINLOCK(name)` | Declare and initialize spinlock |
+| `atomic_t var = ATOMIC_INIT(0)` | Declare atomic counter |
