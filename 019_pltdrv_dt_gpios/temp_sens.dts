@@ -1,0 +1,18 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+    fragment@0 {
+        target = <&{/}>;   /* attach at root node */
+        __overlay__ {
+            sensor@0 {
+                compatible = "temp-sensor,anis";
+                sensor-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
+                label = "gpio-sensor-00A1";
+                status = "okay";
+            };
+        };
+    };
+};

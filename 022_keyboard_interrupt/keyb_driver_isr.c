@@ -5,7 +5,7 @@
 #include <linux/workqueue.h>
 #include <asm/io.h>
 
-#define KEYBOARD_IRQ        1
+#define KEYBOARD_IRQ	0x1
 
 static struct work_struct kb_work;
 
@@ -28,7 +28,8 @@ static int __init keyboard_driver_init(void)
                     keyboard_irq_handler,
                     IRQF_SHARED,
                     "keyb_snif",
-                    (void *)(keyboard_irq_handler))) {
+                    NULL)) 
+	{
         printk(KERN_ERR "Failed to register keyboard IRQ\n");
         return -1;
     }

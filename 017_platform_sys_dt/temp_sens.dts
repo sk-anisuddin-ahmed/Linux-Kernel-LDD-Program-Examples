@@ -1,0 +1,18 @@
+/dts-v1/;
+/plugin/;
+
+/ {
+    compatible = "ti,beaglebone", "ti,beaglebone-black";
+
+    fragment@0 {
+        target = <&{/}>;   /* attach at root node */
+        __overlay__ {
+            sensor@0 {
+                compatible = "temp-sensor,anis";
+                reg = <0x50000000 0x1000>;   /* base + size */
+                label = "temp-sensor-00A1";  /* string property */
+                status = "okay";             /* enabled */
+            };
+        };
+    };
+};

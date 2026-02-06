@@ -94,7 +94,8 @@ static struct attribute *irq_attrs[] = {
     &dev_attr_trigger_work.attr,
     &dev_attr_trigger_tasklet.attr,
     &dev_attr_reset_count.attr,
-    NULL};
+    NULL
+};
 
 static struct attribute_group irq_attr_group = {
     .attrs = irq_attrs,

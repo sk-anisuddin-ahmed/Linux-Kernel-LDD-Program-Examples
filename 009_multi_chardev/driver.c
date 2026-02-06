@@ -12,6 +12,7 @@
 #include <linux/slab.h>
 
 #define Dev_Count	5
+#define BaseMinor	0
 #define Dev_Name	"my_dev"
 #define Class_Name	"my_class"
 
@@ -52,7 +53,7 @@ static const struct file_operations rw_fops = {
 
 static int __init dev_init(void)
 {
-    alloc_chrdev_region(&devt, 0, Dev_Count, Dev_Name);    
+    alloc_chrdev_region(&devt, BaseMinor, Dev_Count, Dev_Name);    
     rw_class = class_create(THIS_MODULE, Class_Name);		
 	cdev_init(rw_cdev, &rw_fops);
 	cdev_add(rw_cdev, devt, Dev_Count);
