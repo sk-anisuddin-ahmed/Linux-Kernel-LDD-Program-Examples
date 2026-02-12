@@ -1,0 +1,26 @@
+@@
+ enum
+ {
+	HI_SOFTIRQ=0,
+	TIMER_SOFTIRQ,
+	NET_TX_SOFTIRQ,
+	NET_RX_SOFTIRQ,
+	BLOCK_SOFTIRQ,
+	IRQ_POLL_SOFTIRQ,
+	TASKLET_SOFTIRQ,
+	SCHED_SOFTIRQ,
+	HRTIMER_SOFTIRQ,
+	RCU_SOFTIRQ,
++   MY_SOFTIRQ,
+	NR_SOFTIRQS
+ };
+@@
+
+@@
+ void __init softirq_init(void)
+ {
+	open_softirq(TASKLET_SOFTIRQ, tasklet_action);
+	open_softirq(HI_SOFTIRQ, tasklet_hi_action);
++   open_softirq(MY_SOFTIRQ, my_softirq_action);
+ }
+@@
