@@ -5,8 +5,8 @@
 static void my_tasklet_func(struct tasklet_struct *t)
 {
     pr_info("%s: executed\n", __func__);
-    pr_info("%s: in_irq=%d, in_softirq=%d, in_interrupt=%d, in_task=%d\n",
-            __func__, !!in_irq(), !!in_softirq(), !!in_interrupt(), !!in_task());
+    pr_info("%s: in_irq=%d, in_softirq=%d, in_interrupt=%d, in_task=%d\n",__func__, !!in_irq(), !!in_softirq(), !!in_interrupt(), !!in_task());
+    pr_info("%s: current->pid=%d, current->comm=%s\n", __func__, current->pid, current->comm);
 }
 
 DECLARE_TASKLET(my_tasklet, my_tasklet_func);
